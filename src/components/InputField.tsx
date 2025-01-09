@@ -2,6 +2,8 @@ interface Props {
   id: string;
   placeholder: string;
   label: string;
+  value: string;
+  onChange: (event: any) => void;
 }
 
 function InputField(props: Props) {
@@ -22,6 +24,8 @@ function InputField(props: Props) {
           padding: "8px 20px 8px 20px",
           fontFamily: "'League Spartan', sans-serif",
         }}
+        value={props.value}
+        onChange={props.onChange}
       />
       <span
         className="input-group-text"

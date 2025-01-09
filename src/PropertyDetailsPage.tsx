@@ -6,12 +6,18 @@ import LocationSearchBar from "./components/LocationSearchBar";
 import Output from "./components/Output";
 import { LoadScript } from "@react-google-maps/api";
 import googleMapsApiKey from "./API_Keys.tsx";
+import axios from "axios";
 
 function PropertyDetailsPage() {
   const [mapCenter, setMapCenter] = useState({
     lat: 37.229572,
     lng: -80.41394,
   });
+
+  const [bedroomValue, setBedroomValue] = useState("");
+  const [bathroomValue, setBathroomValue] = useState("");
+  const [acreLotValue, setAcreLotValue] = useState("");
+  const [houseSizeValue, setHouseSizeValue] = useState("");
 
   return (
     <LoadScript googleMapsApiKey={googleMapsApiKey} libraries={["places"]}>
@@ -102,9 +108,47 @@ function PropertyDetailsPage() {
           >
             <div className="row">
               <div className="col">
-                <Form />
+                <Form
+                  bedroomValue={bedroomValue}
+                  onChangeBedroom={(event) => {
+                    setBedroomValue(event.target.value);
+                  }}
+                  bathroomValue={bathroomValue}
+                  onChangeBathroom={(event) => {
+                    setBathroomValue(event.target.value);
+                  }}
+                  acreLotValue={acreLotValue}
+                  onChangeAcreLot={(event) => {
+                    setAcreLotValue(event.target.value);
+                  }}
+                  houseSizeValue={houseSizeValue}
+                  onChangeHouseSize={(event) => {
+                    setHouseSizeValue(event.target.value);
+                  }}
+                />
                 <LocationSearchBar setMapCenter={setMapCenter} />
-                <Output />
+                <Output
+                  buttonClick={async () => {
+                    try {
+                      const response = await axios.post(
+                        "http://localhost:3000/api/analyzer-log",
+                        {
+                          bed: Number(bedroomValue),
+                          bath: Number(bathroomValue),
+                          acre_lot: parseFloat(acreLotValue),
+                          house_size: parseFloat(houseSizeValue),
+                          city: "Blacksburg",
+                          state: "Virginia",
+                          zip_code: "24060",
+                          predicted_price: 0,
+                        }
+                      );
+                      console.log("Client added:", response.data); // Log the response
+                    } catch (error) {
+                      console.log("Error adding analyzer log:", error);
+                    }
+                  }}
+                />
               </div>
               <div className="col">
                 {/* Google Maps Display */}

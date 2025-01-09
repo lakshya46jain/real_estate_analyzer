@@ -1,4 +1,8 @@
-function Output() {
+interface Props {
+  buttonClick: () => void;
+}
+
+function Output(props: Props) {
   return (
     <div className="input-group mb-3">
       <button
@@ -13,6 +17,7 @@ function Output() {
           fontFamily: "'League Spartan', sans-serif",
           margin: "0px 20px 0px 0px",
         }}
+        onClick={props.buttonClick}
       >
         Search
       </button>
