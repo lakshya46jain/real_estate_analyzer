@@ -5,7 +5,6 @@ import Map from "./components/Map";
 import LocationSearchBar from "./components/LocationSearchBar";
 import Output from "./components/Output";
 import { LoadScript } from "@react-google-maps/api";
-import googleMapsApiKey from "./API_Keys.tsx";
 import axios from "axios";
 
 function PropertyDetailsPage() {
@@ -69,8 +68,10 @@ function PropertyDetailsPage() {
     }
   };
 
+  const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY
+
   return (
-    <LoadScript googleMapsApiKey={googleMapsApiKey} libraries={["places"]}>
+    <LoadScript googleMapsApiKey={GOOGLE_MAPS_API_KEY} libraries={["places"]}>
       <div
         style={{
           display: "flex", // Enable flexbox
